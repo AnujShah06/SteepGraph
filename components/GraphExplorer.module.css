@@ -34,6 +34,51 @@
   border: var(--border);
 }
 
+.thresholdControl {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: rgba(15, 14, 12, 0.85);
+  backdrop-filter: blur(8px);
+  padding: 8px 12px;
+  border-radius: 3px;
+  border: var(--border);
+}
+
+.thresholdLabel {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gold);
+}
+
+.thresholdSlider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 140px;
+  height: 2px;
+  background: rgba(200, 169, 110, 0.25);
+  border-radius: 1px;
+  outline: none;
+  cursor: pointer;
+}
+
+.thresholdSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--gold);
+  cursor: pointer;
+  transition: background var(--duration) var(--ease);
+}
+
+.thresholdSlider::-webkit-slider-thumb:hover {
+  background: var(--gold2);
+}
+
 .search {
   font-family: var(--mono);
   font-size: 0.75rem;

@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 3600;
 
 export const metadata = {
-  title: "Region Map — SteepGraph",
+  title: "Region Map — SteepWisdom",
   description: "Explore teas by their origin regions around the world.",
 };
 

@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 3600;
 
 export const metadata = {
-  title: "Graph Explorer — SteepGraph",
+  title: "Graph Explorer — SteepWisdom",
   description: "Interactive force-directed graph of 150 teas and their similarity relationships.",
 };
 

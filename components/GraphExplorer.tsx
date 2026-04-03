@@ -39,6 +39,7 @@ export default function GraphExplorer({
   const [selectedTea, setSelectedTea] = useState<GraphNode | null>(null);
   const [filterType, setFilterType] = useState<TeaType | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [minScore, setMinScore] = useState(0.65);
   const simulationRef = useRef<d3.Simulation<SimNode, SimEdge> | null>(null);
 
   const nodeRadius = useCallback(
@@ -61,7 +62,7 @@ export default function GraphExplorer({
     }
     const nodeIds = new Set(filteredNodes.map((n) => n.id));
     let filteredEdges: SimEdge[] = payload.edges
-      .filter((e) => nodeIds.has(e.source) && nodeIds.has(e.target))
+      .filter((e) => nodeIds.has(e.source) && nodeIds.has(e.target) && e.score >= minScore)
       .map((e) => ({ ...e }));
 
     // Clear existing
@@ -85,7 +86,7 @@ export default function GraphExplorer({
 
     svgSel.call(zoom);
 
-    // Force simulation per spec
+    // Force simulation — spread out like Neo4j browser
     const simulation = d3
       .forceSimulation<SimNode>(filteredNodes)
       .force(
@@ -93,16 +94,16 @@ export default function GraphExplorer({
         d3
           .forceLink<SimNode, SimEdge>(filteredEdges)
           .id((d) => d.id)
-          .distance((d) => 120 + (1 - d.score) * 80)
-          .strength((d) => d.score * 0.3)
+          .distance((d) => 220 + (1 - d.score) * 120)
+          .strength((d) => d.score * 0.25)
       )
-      .force("charge", d3.forceManyBody().strength(-280))
+      .force("charge", d3.forceManyBody().strength(-600))
       .force("center", d3.forceCenter(width / 2, height / 2))
       .force(
         "collide",
-        d3.forceCollide<SimNode>().radius((d) => nodeRadius(d) + 22)
+        d3.forceCollide<SimNode>().radius((d) => nodeRadius(d) + 40)
       )
-      .alphaDecay(0.03);
+      .alphaDecay(0.025);
 
     simulationRef.current = simulation;
 
@@ -162,58 +163,36 @@ export default function GraphExplorer({
       .attr("stroke-width", 2)
       .attr("opacity", 0);
 
-    // Hover label
+    // Labels — always visible below each node (Neo4j style)
     const labels = g
       .append("g")
       .attr("class", "labels")
       .selectAll<SVGGElement, SimNode>("g")
       .data(filteredNodes)
       .join("g")
-      .attr("opacity", 0)
       .attr("pointer-events", "none");
 
-    // Background rect for readability
     labels
-      .append("rect")
-      .attr("rx", 2)
-      .attr("ry", 2)
-      .attr("fill", "rgba(15,14,12,0.75)");
-
-    const nameText = labels
       .append("text")
+      .attr("class", "label-name")
       .attr("text-anchor", "middle")
-      .attr("dy", "-0.15em")
+      .attr("dy", (d) => nodeRadius(d) + 13)
       .attr("font-family", "var(--serif)")
-      .attr("font-size", "10px")
+      .attr("font-size", "9px")
       .attr("fill", "var(--cream)")
+      .attr("opacity", 0.75)
       .text((d) => d.name);
 
-    const brandText = labels
+    labels
       .append("text")
+      .attr("class", "label-brand")
       .attr("text-anchor", "middle")
-      .attr("dy", "0.95em")
+      .attr("dy", (d) => nodeRadius(d) + 23)
       .attr("font-family", "var(--mono)")
       .attr("font-size", "7px")
       .attr("fill", "var(--gold)")
+      .attr("opacity", 0.5)
       .text((d) => d.brand);
-
-    // Size the background rect to fit the text
-    labels.each(function () {
-      const g = d3.select(this);
-      const texts = g.selectAll<SVGTextElement, unknown>("text");
-      let maxW = 0;
-      let totalH = 0;
-      texts.each(function () {
-        const bb = (this as SVGTextElement).getBBox();
-        if (bb.width > maxW) maxW = bb.width;
-        totalH += bb.height;
-      });
-      g.select("rect")
-        .attr("x", -maxW / 2 - 4)
-        .attr("y", -totalH * 0.6)
-        .attr("width", maxW + 8)
-        .attr("height", totalH + 6);
-    });
 
     // Interactions
     nodes
@@ -225,34 +204,31 @@ export default function GraphExplorer({
       })
       .on("mouseenter", (_, d) => {
         setHoveredId(d.id);
-        labels.filter((l) => l.id === d.id).attr("opacity", 1);
         // Highlight neighbors
         const neighborIds = new Set<string>();
-        const scoredNeighbors: { id: string; score: number }[] = [];
         filteredEdges.forEach((e) => {
           const src = typeof e.source === "object" ? (e.source as SimNode).id : String(e.source);
           const tgt = typeof e.target === "object" ? (e.target as SimNode).id : String(e.target);
-          if (src === d.id) scoredNeighbors.push({ id: tgt, score: e.score });
-          if (tgt === d.id) scoredNeighbors.push({ id: src, score: e.score });
+          if (src === d.id) neighborIds.add(tgt);
+          if (tgt === d.id) neighborIds.add(src);
         });
-        scoredNeighbors.forEach(({ id }) => neighborIds.add(id));
         neighborIds.add(d.id);
 
-        // Only show labels for hovered node + top 5 closest neighbors
-        const labelIds = new Set([
-          d.id,
-          ...scoredNeighbors.sort((a, b) => b.score - a.score).slice(0, 5).map((n) => n.id),
-        ]);
         nodes
           .select("circle:first-child")
-          .attr("opacity", (n) => (neighborIds.has(n.id) ? 1 : 0.3));
-        labels.filter((l) => labelIds.has(l.id)).attr("opacity", 1);
+          .attr("opacity", (n) => (neighborIds.has(n.id) ? 1 : 0.2));
+        // Full opacity labels for hovered node + neighbors
+        labels.selectAll<SVGTextElement, SimNode>(".label-name")
+          .attr("opacity", (n) => neighborIds.has(n.id) ? 1 : 0.2);
+        labels.selectAll<SVGTextElement, SimNode>(".label-brand")
+          .attr("opacity", (n) => neighborIds.has(n.id) ? 0.8 : 0.1);
       })
       .on("mouseleave", (_, d) => {
         setHoveredId(null);
-        labels.attr("opacity", 0);
         if (!selectedId) {
           nodes.select("circle:first-child").attr("opacity", 0.9);
+          labels.selectAll(".label-name").attr("opacity", 0.75);
+          labels.selectAll(".label-brand").attr("opacity", 0.5);
         }
       })
       .on("dblclick", (_, d) => {
@@ -268,6 +244,8 @@ export default function GraphExplorer({
       setSelectedTea(null);
       nodes.select("circle:first-child").attr("opacity", 0.9);
       nodes.select(".selection-ring").attr("opacity", 0);
+      labels.selectAll(".label-name").attr("opacity", 0.75);
+      labels.selectAll(".label-brand").attr("opacity", 0.5);
     });
 
     function updateSelection(id: string) {
@@ -290,7 +268,10 @@ export default function GraphExplorer({
         .select(".selection-ring")
         .attr("opacity", (n) => (n.id === id ? 1 : 0));
 
-      labels.attr("opacity", (n) => (n.id === id ? 1 : 0));
+      labels.selectAll<SVGTextElement, SimNode>(".label-name")
+        .attr("opacity", (n) => neighborIds.has(n.id) ? 1 : 0.15);
+      labels.selectAll<SVGTextElement, SimNode>(".label-brand")
+        .attr("opacity", (n) => neighborIds.has(n.id) ? 0.8 : 0.1);
     }
 
     // Tick
@@ -308,7 +289,7 @@ export default function GraphExplorer({
     return () => {
       simulation.stop();
     };
-  }, [payload, filterType, nodeRadius]);
+  }, [payload, filterType, minScore, nodeRadius]);
 
   return (
     <div className={styles.wrapper}>
@@ -330,6 +311,20 @@ export default function GraphExplorer({
               {t}
             </button>
           ))}
+        </div>
+        <div className={styles.thresholdControl}>
+          <span className={styles.thresholdLabel}>
+            min similarity: {minScore.toFixed(2)}
+          </span>
+          <input
+            type="range"
+            min="0.45"
+            max="0.9"
+            step="0.05"
+            value={minScore}
+            onChange={(e) => setMinScore(parseFloat(e.target.value))}
+            className={styles.thresholdSlider}
+          />
         </div>
         <input
           type="text"

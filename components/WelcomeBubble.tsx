@@ -6,12 +6,12 @@ export default function WelcomeBubble() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const dismissed = localStorage.getItem("steepgraph-welcome-dismissed");
+    const dismissed = localStorage.getItem("steepwisdom-welcome-dismissed");
     if (!dismissed) setVisible(true);
   }, []);
 
   function dismiss() {
-    localStorage.setItem("steepgraph-welcome-dismissed", "1");
+    localStorage.setItem("steepwisdom-welcome-dismissed", "1");
     setVisible(false);
   }
 
@@ -67,7 +67,7 @@ export default function WelcomeBubble() {
             lineHeight: 1.2,
           }}
         >
-          SteepGraph
+          SteepWisdom
         </h2>
         <p
           style={{

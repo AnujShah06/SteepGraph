@@ -13,9 +13,9 @@ export async function generateMetadata({
   params: { id: string };
 }) {
   const tea = await getTeaById(params.id);
-  if (!tea) return { title: "Tea not found — SteepGraph" };
+  if (!tea) return { title: "Tea not found — SteepWisdom" };
   return {
-    title: `${tea.name} by ${tea.brand} — SteepGraph`,
+    title: `${tea.name} by ${tea.brand} — SteepWisdom`,
     description: tea.description_raw || `${tea.type} tea from ${tea.brand}.`,
   };
 }

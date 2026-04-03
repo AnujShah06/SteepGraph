@@ -1,4 +1,4 @@
-# SteepGraph
+# SteepWisdom
 
 A graph-based tea discovery tool. ~140 real teas from 11 brands, scraped from brand product pages, normalized via Claude API, stored in Neo4j Aura, and visualized with D3 in a Next.js 14 app.
 

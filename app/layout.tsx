@@ -5,9 +5,9 @@ import WelcomeBubble from "@/components/WelcomeBubble";
 import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
-  title: "SteepGraph — Tea Discovery",
+  title: "SteepWisdom — Tea Discovery",
   description:
-    "A graph-based tea discovery tool. 150 real teas from 11 brands, visualized as an interactive knowledge graph.",
+    "A tea discovery tool. 150 real teas from 11 brands, visualized as an interactive knowledge graph.",
 };
 
 export default function RootLayout({

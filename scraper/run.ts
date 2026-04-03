@@ -44,7 +44,7 @@ async function main() {
   }
 
   console.log("═══════════════════════════════════════");
-  console.log("  SteepGraph Data Pipeline");
+  console.log("  SteepWisdom Data Pipeline");
   console.log(`  Mode: ${extractOnly ? "Extract-only" : "Full crawl"}`);
   console.log(
     `  Brands: ${targetBrands.map((b) => b!.name).join(", ")}`

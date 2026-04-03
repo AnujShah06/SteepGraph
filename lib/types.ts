@@ -1,4 +1,4 @@
-/* ── SteepGraph — Shared TypeScript Interfaces ── */
+/* ── SteepWisdom — Shared TypeScript Interfaces ── */
 
 export type TeaType =
   | "black"

@@ -7,7 +7,7 @@ export default function Nav() {
       <div className={styles.inner}>
         <Link href="/" className={styles.logo}>
           <span className={styles.logoMark}>⬡</span>
-          <span className={styles.logoText}>SteepGraph</span>
+          <span className={styles.logoText}>SteepWisdom</span>
         </Link>
 
         <div className={styles.links}>
