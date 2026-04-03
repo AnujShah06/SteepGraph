@@ -1,0 +1,34 @@
+.mapWrap {
+  width: 100%;
+  height: 340px;
+  overflow: hidden;
+  border-bottom: var(--border);
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+}
+
+.pinLabel {
+  font-family: var(--mono);
+  font-size: 9px;
+  fill: var(--cream);
+  pointer-events: none;
+  letter-spacing: 0.04em;
+}
+
+.pulse {
+  animation: pulseRing 1.5s ease-out infinite;
+}
+
+@keyframes pulseRing {
+  0% {
+    r: inherit;
+    opacity: 0.4;
+  }
+  100% {
+    r: 24;
+    opacity: 0;
+  }
+}

@@ -1,0 +1,27 @@
+.svg {
+  display: block;
+  margin: 0 auto;
+}
+
+.centerLabel {
+  font-family: var(--serif);
+  font-size: 9px;
+  fill: var(--cream);
+  pointer-events: none;
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: 7px;
+  fill: var(--cream2);
+  pointer-events: none;
+}
+
+.node {
+  cursor: pointer;
+}
+
+.node:hover circle {
+  stroke: var(--gold);
+  stroke-width: 2;
+}

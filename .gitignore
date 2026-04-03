@@ -1,0 +1,26 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# next.js
+.next/
+out/
+
+# production
+build/
+
+# env files
+.env*.local
+
+# data pipeline outputs
+data/raw/
+data/extracted/
+data/merged.json
+data/edges.json
+
+# misc
+.DS_Store
+*.tsbuildinfo
+next-env.d.ts
+debug-page.html

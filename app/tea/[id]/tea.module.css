@@ -1,0 +1,208 @@
+.page {
+  min-height: calc(100vh - 56px);
+}
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.breadcrumb {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.breadcrumb a {
+  color: var(--gold);
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  color: var(--gold2);
+}
+
+.sep {
+  color: var(--muted);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+}
+
+.typeDot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+
+.typeLabel {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--cream2);
+}
+
+.name {
+  font-family: var(--serif);
+  font-size: 2.2rem;
+  font-weight: 300;
+  line-height: 1.15;
+  color: var(--cream);
+  margin: 4px 0;
+}
+
+.brand {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+}
+
+.description {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--cream2);
+  max-width: 60ch;
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  padding: var(--space-lg) 0;
+  border-top: var(--border);
+  border-bottom: var(--border);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fieldLabel {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+.fieldValue {
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  color: var(--cream);
+}
+
+.tagRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.similarSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.sectionTitle {
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--cream);
+}
+
+.similarGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.similarCard {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: 10px var(--space-md);
+  border: var(--border);
+  border-radius: 3px;
+  text-decoration: none;
+  color: var(--cream);
+  transition: all var(--duration) var(--ease);
+}
+
+.similarCard:hover {
+  border-color: rgba(200, 169, 110, 0.35);
+  background: rgba(200, 169, 110, 0.04);
+}
+
+.similarDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.similarInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.similarName {
+  font-family: var(--serif);
+  font-size: 0.95rem;
+}
+
+.similarBrand {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.similarScore {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--gold);
+}
+
+.footer {
+  display: flex;
+  gap: var(--space-xl);
+  padding-top: var(--space-md);
+}
+
+.sourceLink,
+.graphLink {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--gold);
+  text-decoration: none;
+  transition: color var(--duration) var(--ease);
+}
+
+.sourceLink:hover,
+.graphLink:hover {
+  color: var(--gold2);
+}

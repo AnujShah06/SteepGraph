@@ -1,0 +1,47 @@
+.page {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--space-lg);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-lg);
+}
+
+.skelTitle {
+  height: 36px;
+  width: 160px;
+}
+
+.skelSearch {
+  height: 36px;
+  width: 280px;
+}
+
+.filterRow {
+  display: flex;
+  gap: 8px;
+  margin-bottom: var(--space-lg);
+  padding-bottom: var(--space-md);
+  border-bottom: var(--border);
+}
+
+.skelTag {
+  height: 26px;
+  width: 64px;
+  border-radius: 2px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.skelRow {
+  height: 50px;
+  width: 100%;
+}
